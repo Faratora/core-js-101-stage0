@@ -32,8 +32,12 @@ function concatenateStrings(value1, value2) {
  *   'b'     => 1
  *   ''      => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
+function getStringLength(value) {
+  let count = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    count += 1;
+  }
+  return count;
 }
 
 /**
