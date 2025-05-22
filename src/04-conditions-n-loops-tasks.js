@@ -160,8 +160,14 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const result = Math.sqrt(
+    (circle.center.x - point.x) ** 2 + (circle.center.y - point.y) ** 2
+  );
+  if (result < circle.radius) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -175,8 +181,14 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (str.indexOf(char) === i && str.indexOf(char, i + 1) === -1) {
+      return char;
+    }
+  }
+  return null;
 }
 
 /**
@@ -201,8 +213,12 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const startBracket = isStartIncluded ? '[' : '(';
+  const endBracket = isEndIncluded ? ']' : ')';
+  const start = Math.min(a, b);
+  const end = Math.max(a, b);
+  return `${startBracket}${start}, ${end}${endBracket}`;
 }
 
 /**
@@ -217,8 +233,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 /**
@@ -233,8 +249,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return num.toString().split('').reverse().join('');
 }
 
 /**
@@ -257,8 +273,35 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+
+// Шаг 1: Нумерация справа налево
+//   7 9 9 2 7 3 9 8 7 1 3
+
+// Шаг 2: Удваиваем цифры на чётных позициях
+//   7 18 9 4 7 6 9 16 7 2 3
+
+// Шаг 3: Заменяем числа больше 9 суммой цифр
+//   7 9 9 4 7 6 9 7 7 2 3
+
+// Шаг 4: Складываем цифры
+//   7 + 9 + 9 + 4 + 7 + 6 + 9 + 7 + 7 + 2 + 3 = 70
+
+// Шаг 5: Проверяем делимость на 10
+//   70 % 10 == 0  ✅ → номер корректный!
+
+function isCreditCardNumber(ccn) {
+  const digits = ccn.toString().split('').map(Number).reverse();
+
+  const sum = digits.reduce((acc, digit, index) => {
+    let result = digit;
+    if (index % 2 === 1) {
+      result *= 2;
+      if (result > 9) result -= 9;
+    }
+    return acc + result;
+  }, 0);
+
+  return sum % 10 === 0;
 }
 
 /**
