@@ -458,20 +458,16 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  // Создаем новую матрицу для хранения результата
-  const array = [];
+  const array = Array.from({ length: m1.length }, () => []);
   // Перебираем строки матриц
   for (let i = 0; i < m1.length; i += 1) {
-    // Создаем новую строку для результата
-    array[i] = [];
-    // Перебираем столбцы матриц
-    for (let j = 0; j < m1[0].length; j += 1) {
+    for (let j = 0; j < m2[0].length; j += 1) {
       // Складываем соответствующие элементы матриц
       let sum = 0;
-      for (let k = 0; k < m2[0].length; k += 1) {
+      for (let k = 0; k < m1[0].length; k += 1) {
         sum += m1[i][k] * m2[k][j];
+        array[i][j] = sum;
       }
-      array[i][j] = sum;
     }
   }
   return array;
